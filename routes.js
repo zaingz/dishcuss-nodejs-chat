@@ -6,7 +6,7 @@
 
 var gravatar = require('gravatar');
 var array = [];
-
+var dat ;
 
 /*var pg = require('pg');
 
@@ -151,6 +151,38 @@ module.exports = function(app,io){
 		res.render('pundit');	
 	});
 
+	app.get('/getpundits', function(req,res){
+		// Render the chant.html view
+		var mongodb = require('mongodb');
+
+		//We need to work with "MongoClient" interface in order to connect to a mongodb server.
+		var MongoClient = mongodb.MongoClient;
+
+		// Connection URL. This is where your mongodb server is running.
+		var url = 'mongodb://localhost:27017/dishcuss';
+
+		// Use connect method to connect to the Server
+		MongoClient.connect(url, function (err, db) {
+		  if (err) {
+		    console.log('Unable to connect to the mongoDB server. Error:', err);
+		  } else {
+		    //HURRAY!! We are connected. :)
+		    console.log('Connection established to', url);
+
+		    // Get the documents collection
+		    var collection = db.collection('pundits');
+
+		    collection.find().toArray(function(err, items) {
+	          dat = items;
+	          console.log(items);
+	          console.log('Records Fetched');
+	          res.send(items);
+	          db.close();
+	        });
+		  }
+		});
+	});
+
 	app.post('/pundit/save', function(req,res){
 		console.log('Name '+req.body.name);
 		console.log('Room '+req.body.room);
@@ -163,7 +195,7 @@ module.exports = function(app,io){
 		console.log('Password '+req.body.pwd);
 		console.log('Confirm Password '+req.body.c_pwd);
 		console.log('Welcome Message '+req.body.w_msg);*/
-		//save_pundit('tayyab', 'Pundit1', 'desi_pandit@dishcuss.com', '147852369', 'Ki haal e sajno');
+		save_pundit(req.body.name, req.body.room, req.body.email, req.body.password, req.body.message);
 		res.redirect('/pundits');
 	});
 
@@ -239,7 +271,8 @@ module.exports = function(app,io){
 				console.log("Nick Name: " + nic);
 				array.push({email: asf.email , room: asf.room , socket_id: socket.id , nick: nic});
 				socket.emit('idsave' , {email: asf.email , nick: nic});
-				if(data.email == "italian_pandit@dishcuss.com" || asf.email == "desi_pandit@dishcuss.com"){
+				console.log('chowing dat ' + dat);
+				if(asf.email == "italian_pandit@dishcuss.com" || asf.email == "desi_pandit@dishcuss.com"){
 					socket.emit('chatipandit' , {id: [asf.id] , users: [asf.user] , avatars: [socket.avatar]} );
 				}else{
 					socket.emit('chati' , {id: [asf.id] , users: [asf.user] , avatars: [socket.avatar]} );
@@ -541,6 +574,7 @@ function save_pundit(u_name, u_room, u_email, u_pass, u_msg){
 }
 
 function get_pundit(){
+	
 	//lets require/import the mongodb native drivers.
 	var mongodb = require('mongodb');
 
@@ -562,10 +596,12 @@ function get_pundit(){
 	    var collection = db.collection('pundits');
 
 	    collection.find().toArray(function(err, items) {
+          dat = items;
           console.log(items);
-
+          console.log('Records Fetched');
           db.close();
         });
 	  }
 	});
+	return dat;
 }

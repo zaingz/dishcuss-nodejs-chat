@@ -11,6 +11,9 @@ $(function(){
 	var pchat4 ;
 	var pcount = 0 ;
 
+	var db_pundits ;
+	var itemo = [] ;
+
 	// getting the id of the room from the url
 	/*var mongoose = require('mongoose');
 	mongoose.connect('mongodb://localhost/dishcuss');*/
@@ -58,6 +61,18 @@ $(function(){
 		leftImage = $("#leftImage"),
 		noMessagesImage = $("#noMessagesImage");
 
+	//request to server to get pundits
+	$.ajax({url: "/getpundits", method: "GET" , success: function(result){
+	  console.log("Success");
+	  for(i=0 ; i<result.length ; i++){
+	  	console.log('Printing');
+	  	console.log(result[i].email + " " + result[i].message + " " + result[i].name + " " + result[i].password);
+	  	itemo[i] = result[i].email + '&' + result[i].message;
+	  }
+	  console.log(itemo);
+	  //localStorage.setItem("dichcuss_pundits", itemo);
+	}});
+
 
 	// on connection to server get the id of person's room
 	socket.on('connect', function(){
@@ -75,7 +90,17 @@ $(function(){
 		    }
 		}
 
-		if(email == "italian_pandit@dishcuss.com" || email == "desi_pandit@dishcuss.com"){
+		var chk_pun_email = false;
+		for(i=0 ; i<itemo.length ; i++){
+			c = itemo[i];
+			ema_chk = c.split('&')[0];
+			ema_msg = c.split('&')[1];
+			if(email == ema_chk){
+				chk_pun_email = true ;
+			}
+		}
+
+		if(chk_pun_email == true){
 			$("#chatscreenid").addClass('hidden');
 		}else{
 			$("#chatscreenpunditid").addClass('hidden');
