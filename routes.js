@@ -152,14 +152,18 @@ module.exports = function(app,io){
 	});
 
 	app.post('/pundit/save', function(req,res){
-		console.log('Request '+req.body);
+		console.log('Name '+req.body.name);
+		console.log('Room '+req.body.room);
+		console.log('Email '+req.body.email);
+		console.log('Password '+req.body.password);
+		console.log('Message '+req.body.message);
 		/*console.log('Pundit Name '+req.body.pun_name);
 		console.log('Pundit Room '+req.body.room);
 		console.log('Email '+req.body.email);
 		console.log('Password '+req.body.pwd);
 		console.log('Confirm Password '+req.body.c_pwd);
 		console.log('Welcome Message '+req.body.w_msg);*/
-		save_pundit('tayyab', 'Pundit1', 'desi_pandit@dishcuss.com', '147852369', 'Ki haal e sajno');
+		//save_pundit('tayyab', 'Pundit1', 'desi_pandit@dishcuss.com', '147852369', 'Ki haal e sajno');
 		res.redirect('/pundits');
 	});
 
