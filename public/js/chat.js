@@ -67,17 +67,13 @@ $(function(){
 	  for(i=0 ; i<result.length ; i++){
 	  	console.log('Printing');
 	  	console.log(result[i].email + " " + result[i].message + " " + result[i].name + " " + result[i].password);
-	  	itemo[i] = result[i].email + '&' + result[i].message;
+	  	itemo[i] = result[i].email + '&' + result[i].message + '&' + result[i].room ;
 	  }
 	  console.log(itemo);
-	  //localStorage.setItem("dichcuss_pundits", itemo);
-	}});
+	  localStorage.setItem("dichcuss_pundits", itemo);
 
 
-	// on connection to server get the id of person's room
-	socket.on('connect', function(){
-		//socket.emit('load', id);
-		rom_chk = false;
+	  rom_chk = false;
 		email =  window.location.search.split('&email=')[1];
 		var na = window.location.search.split('&email=')[0].split('?name=')[1];
 		name = na.charAt(0).toUpperCase() + na.slice(1);
@@ -119,6 +115,57 @@ $(function(){
 		}else{
 			console.log("Either name or email missing");
 		}
+
+
+
+	}});
+
+
+	// on connection to server get the id of person's room
+	socket.on('connect', function(){
+		//socket.emit('load', id);
+		/*rom_chk = false;
+		email =  window.location.search.split('&email=')[1];
+		var na = window.location.search.split('&email=')[0].split('?name=')[1];
+		name = na.charAt(0).toUpperCase() + na.slice(1);
+		roomi = window.location.pathname.split('chat/')[1];
+		rooms = ['pandit1','pandit2'];
+		for (i = 0; i < rooms.length; i++) { 
+		    if(rooms[i] == roomi){
+		    	rom_chk = true;
+		    	break;
+		    }
+		}
+
+		var chk_pun_email = false;
+		for(i=0 ; i<itemo.length ; i++){
+			c = itemo[i];
+			ema_chk = c.split('&')[0];
+			ema_msg = c.split('&')[1];
+			if(email == ema_chk){
+				chk_pun_email = true ;
+			}
+		}
+
+		if(chk_pun_email == true){
+			$("#chatscreenid").addClass('hidden');
+		}else{
+			$("#chatscreenpunditid").addClass('hidden');
+		}
+		
+		if(email != undefined && name != undefined && rom_chk == true){
+			if(!isValid(email)){
+					console.log("Invalid e-mail format!");
+			}
+			else {
+				localStorage.setItem("dichcuss_chat_user", email);
+				socket.emit('p1_join' , '{"id": "' + email + '" , "username": "' + name + '", "email": "' + email + '", "room": "' + roomi+ '"}');
+				var sd = name + "&" + email;
+				//loadDoc(sd);
+			}
+		}else{
+			console.log("Either name or email missing");
+		}*/
 
 		/*var bol = window.location.href.split('/chat/')[1].indexOf("?");
 		var bolv = window.location.href.split('/chat/')[1].indexOf("&");
@@ -198,8 +245,19 @@ $(function(){
 	});
 
 	socket.on('welcome_msg', function(data){
+		var ms = 'Welcome';
+		var puns = localStorage.getItem('dichcuss_pundits');
+		
+		var ara = [];
+		ara = puns.split(',');
+		for(i=0 ; i<ara.length ; i++) {
+		  if(ara[i].split('&')[2] == 'Pundit1'){
+		  	ms = ara[i].split('&')[1];
+		  }
+		}
+
 		showMessage("chatStarted");
-		createChatMessage(data.msg, 'Pandit', 'Pandit', "http://www.gravatar.com/avatar/6b7d19f9df91b20be0a9a4de39dd3913?s=140&r=x&d=mm", moment());
+		createChatMessage(ms, 'Pandit', 'Pandit', "http://www.gravatar.com/avatar/6b7d19f9df91b20be0a9a4de39dd3913?s=140&r=x&d=mm", moment());
 		scrollToBottom();
 	});
 	//socket.emit('p1_msg' , )

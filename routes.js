@@ -8,6 +8,17 @@ var gravatar = require('gravatar');
 var array = [];
 var dat ;
 
+
+
+// Render the chant.html view
+var mongodb = require('mongodb');
+
+//We need to work with "MongoClient" interface in order to connect to a mongodb server.
+var MongoClient = mongodb.MongoClient;
+
+// Connection URL. This is where your mongodb server is running.
+var url = 'mongodb://localhost:27017/dishcuss';
+
 /*var pg = require('pg');
 
 // instantiate a new client
@@ -152,14 +163,7 @@ module.exports = function(app,io){
 	});
 
 	app.get('/getpundits', function(req,res){
-		// Render the chant.html view
-		var mongodb = require('mongodb');
-
-		//We need to work with "MongoClient" interface in order to connect to a mongodb server.
-		var MongoClient = mongodb.MongoClient;
-
-		// Connection URL. This is where your mongodb server is running.
-		var url = 'mongodb://localhost:27017/dishcuss';
+		
 
 		// Use connect method to connect to the Server
 		MongoClient.connect(url, function (err, db) {
@@ -215,6 +219,7 @@ module.exports = function(app,io){
 		socket.on('p1_join', function(data){
 			console.log(data);
 
+			var msgtocli = 'Welcome';
 			var asf = JSON.parse(data);
 			console.log(asf.username);
 
@@ -275,8 +280,9 @@ module.exports = function(app,io){
 				if(asf.email == "italian_pandit@dishcuss.com" || asf.email == "desi_pandit@dishcuss.com"){
 					socket.emit('chatipandit' , {id: [asf.id] , users: [asf.user] , avatars: [socket.avatar]} );
 				}else{
+
 					socket.emit('chati' , {id: [asf.id] , users: [asf.user] , avatars: [socket.avatar]} );
-					io.to(socket.id).emit('welcome_msg', {msg: "Welcome" , id: nic});
+					io.to(socket.id).emit('welcome_msg', {msg: msgtocli , id: nic});
 				}
 			}else{
 				socket.emit('tooMany' , {});
@@ -492,14 +498,14 @@ function findClientsSocket(io,roomId, namespace) {
 
 
 function mond(u_name , u_id){
-	//lets require/import the mongodb native drivers.
+	/*//lets require/import the mongodb native drivers.
 	var mongodb = require('mongodb');
 
 	//We need to work with "MongoClient" interface in order to connect to a mongodb server.
 	var MongoClient = mongodb.MongoClient;
 
 	// Connection URL. This is where your mongodb server is running.
-	var url = 'mongodb://localhost:27017/dishcuss';
+	var url = 'mongodb://localhost:27017/dishcuss';*/
 
 	// Use connect method to connect to the Server
 	MongoClient.connect(url, function (err, db) {
@@ -536,14 +542,14 @@ function mond(u_name , u_id){
 		console.log('Welcome Message '+req.body.w_msg);*/
 
 function save_pundit(u_name, u_room, u_email, u_pass, u_msg){
-	//lets require/import the mongodb native drivers.
+	/*//lets require/import the mongodb native drivers.
 	var mongodb = require('mongodb');
 
 	//We need to work with "MongoClient" interface in order to connect to a mongodb server.
 	var MongoClient = mongodb.MongoClient;
 
 	// Connection URL. This is where your mongodb server is running.
-	var url = 'mongodb://localhost:27017/dishcuss';
+	var url = 'mongodb://localhost:27017/dishcuss';*/
 
 	// Use connect method to connect to the Server
 	MongoClient.connect(url, function (err, db) {
@@ -575,14 +581,14 @@ function save_pundit(u_name, u_room, u_email, u_pass, u_msg){
 
 function get_pundit(){
 	
-	//lets require/import the mongodb native drivers.
+	/*//lets require/import the mongodb native drivers.
 	var mongodb = require('mongodb');
 
 	//We need to work with "MongoClient" interface in order to connect to a mongodb server.
 	var MongoClient = mongodb.MongoClient;
 
 	// Connection URL. This is where your mongodb server is running.
-	var url = 'mongodb://localhost:27017/dishcuss';
+	var url = 'mongodb://localhost:27017/dishcuss';*/
 
 	// Use connect method to connect to the Server
 	MongoClient.connect(url, function (err, db) {
