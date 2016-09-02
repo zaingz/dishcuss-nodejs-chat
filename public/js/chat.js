@@ -12,7 +12,7 @@ $(function(){
 	var pcount = 0 ;
 
 	var db_pundits ;
-	var itemo = [] ;
+	var f = [] ;
 
 	// getting the id of the room from the url
 	/*var mongoose = require('mongoose');
@@ -62,7 +62,7 @@ $(function(){
 		noMessagesImage = $("#noMessagesImage");
 
 	//request to server to get pundits
-	$.ajax({url: "/getpundits", method: "GET" , success: function(result){
+	/*$.ajax({url: "/getpundits", method: "GET" , success: function(result){
 	  console.log("Success");
 	  for(i=0 ; i<result.length ; i++){
 	  	console.log('Printing');
@@ -118,13 +118,13 @@ $(function(){
 
 
 
-	}});
+	}});*/
 
 
 	// on connection to server get the id of person's room
 	socket.on('connect', function(){
 		//socket.emit('load', id);
-		/*rom_chk = false;
+		rom_chk = false;
 		email =  window.location.search.split('&email=')[1];
 		var na = window.location.search.split('&email=')[0].split('?name=')[1];
 		name = na.charAt(0).toUpperCase() + na.slice(1);
@@ -138,13 +138,17 @@ $(function(){
 		}
 
 		var chk_pun_email = false;
-		for(i=0 ; i<itemo.length ; i++){
+		/*for(i=0 ; i<itemo.length ; i++){
 			c = itemo[i];
 			ema_chk = c.split('&')[0];
 			ema_msg = c.split('&')[1];
 			if(email == ema_chk){
 				chk_pun_email = true ;
 			}
+		}*/
+
+		if(email == "italian_pandit@dishcuss.com" || email == "desi_pandit@dishcuss.com"){
+			chk_pun_email = true ;
 		}
 
 		if(chk_pun_email == true){
@@ -165,7 +169,7 @@ $(function(){
 			}
 		}else{
 			console.log("Either name or email missing");
-		}*/
+		}
 
 		/*var bol = window.location.href.split('/chat/')[1].indexOf("?");
 		var bolv = window.location.href.split('/chat/')[1].indexOf("&");
@@ -246,15 +250,15 @@ $(function(){
 
 	socket.on('welcome_msg', function(data){
 		var ms = 'Welcome';
-		var puns = localStorage.getItem('dichcuss_pundits');
+		//var puns = localStorage.getItem('dichcuss_pundits');
 		
-		var ara = [];
+		/*var ara = [];
 		ara = puns.split(',');
 		for(i=0 ; i<ara.length ; i++) {
 		  if(ara[i].split('&')[2] == 'Pundit1'){
 		  	ms = ara[i].split('&')[1];
 		  }
-		}
+		}*/
 
 		showMessage("chatStarted");
 		createChatMessage(ms, 'Pandit', 'Pandit', "http://www.gravatar.com/avatar/6b7d19f9df91b20be0a9a4de39dd3913?s=140&r=x&d=mm", moment());
@@ -505,7 +509,7 @@ $(function(){
 		if((email == "italian_pandit@dishcuss.com" && user == 'Pandit') ||  ( email == "desi_pandit@dishcuss.com" && user == 'Pandit' )){
 			console.log("Pandit Aya");
 			console.log(id);
-			console.log(pchat1 +" " + pchat2 + " " + pchat3 + " " + pchat4);
+			console.log(pchat1 +" " + pchat2 + " " + pchat3 + " " + pchat4 + " Love");
 			emasi = msg.split(' ')[0].slice( 1 );
 			console.log(emasi);
 			if(pchat1 == emasi){
@@ -525,7 +529,7 @@ $(function(){
 		}else if(email == "italian_pandit@dishcuss.com" || email == "desi_pandit@dishcuss.com" ){
 			console.log('pandit');
 			console.log(id);
-			console.log(pchat1 +" " + pchat2 + " " + pchat3 + " " + pchat4);
+			console.log(pchat1 +" " + pchat2 + " " + pchat3 + " " + pchat4 + " Msg");
 			if(pchat1 == emai){
 				$('#chat1').append(li);
 			}else
