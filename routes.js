@@ -226,7 +226,7 @@ module.exports = function(app,io){
 			var room = findClientsSocket(io,asf.room);
 			ar_chk = false;
 			console.log(room.length + " " + asf.email);
-			if(room.length  < 5){
+			if(room.length  < 15){
 				socket.username = asf.username;
 				socket.user_id = asf.id;
 				socket.room = asf.room;
