@@ -129,7 +129,7 @@ $(function(){
 		var na = window.location.search.split('&email=')[0].split('?name=')[1];
 		name = na.charAt(0).toUpperCase() + na.slice(1);
 		roomi = window.location.pathname.split('chat/')[1];
-		rooms = ['pandit1','pandit2'];
+		rooms = ['pandit1','pandit2' , 'continental' , 'fast_food' , 'sasta' , 'foreign'];
 		for (i = 0; i < rooms.length; i++) { 
 		    if(rooms[i] == roomi){
 		    	rom_chk = true;
@@ -147,7 +147,7 @@ $(function(){
 			}
 		}*/
 
-		if(email == "italian_pandit@dishcuss.com" || email == "desi_pandit@dishcuss.com"){
+		if(email == "italian_pandit@dishcuss.com" || email == "desi_pandit@dishcuss.com" || email == "continental_pandit@dishcuss.com" || email == "fast_food_pandit@dishcuss.com" || email == "sasta_pandit@dishcuss.com"  || email == "foreign_pandit@dishcuss.com" ){
 			chk_pun_email = true ;
 		}
 
@@ -442,7 +442,7 @@ $(function(){
 			// Send the message to the other person in the chat
 			var ms_to_router = '';
 			emai = window.location.search.split('&email=')[1];
-			if(emai == "italian_pandit@dishcuss.com" || emai == "desi_pandit@dishcuss.com"){
+			if(emai == "italian_pandit@dishcuss.com" || emai == "desi_pandit@dishcuss.com" || emai == "continental_pandit@dishcuss.com" || emai == "fast_food_pandit@dishcuss.com" || emai == "sasta_pandit@dishcuss.com" || emai == "foreign_pandit@dishcuss.com"){
 				//socket.emit('p1_msg', {id: id ,msg: textarea.val(), user: name, img: img , room: rooma});
 				//console.log(textarea.val() + " " + roomi);
 				var user_i ;
@@ -508,7 +508,7 @@ $(function(){
 
 		// use the 'text' method to escape malicious user input
 		email =  window.location.search.split('&email=')[1];
-		if((email == "italian_pandit@dishcuss.com" && user == 'Pandit') ||  ( email == "desi_pandit@dishcuss.com" && user == 'Pandit' )){
+		if((email == "italian_pandit@dishcuss.com" && user == 'Pandit') ||  ( email == "desi_pandit@dishcuss.com" && user == 'Pandit' ) ||  ( email == "continental_pandit@dishcuss.com" && user == 'Pandit' ) ||  ( email == "fast_food_pandit@dishcuss.com" && user == 'Pandit' ) ||  ( email == "sasta_pandit@dishcuss.com" && user == 'Pandit' ) || (email == "foreign_pandit@dishcuss.com" && user == 'Pandit')){
 			//msg = msg.substr(msg.indexOf(" "), msg.length) ;
 			//console.log("Yo man : "+msg);
 			li.find('p').text(msg.substr(msg.indexOf(" "), msg.length));
@@ -518,7 +518,7 @@ $(function(){
 		li.find('b').text(user);
 
 		//console.log(li);
-		if((email == "italian_pandit@dishcuss.com" && user == 'Pandit') ||  ( email == "desi_pandit@dishcuss.com" && user == 'Pandit' )){
+		if((email == "italian_pandit@dishcuss.com" && user == 'Pandit') ||  ( email == "desi_pandit@dishcuss.com" && user == 'Pandit' ) ||  ( email == "continental_pandit@dishcuss.com" && user == 'Pandit' ) ||  ( email == "fast_food_pandit@dishcuss.com" && user == 'Pandit' ) ||  ( email == "sasta_pandit@dishcuss.com" && user == 'Pandit' )  || (email == "foreign_pandit@dishcuss.com" && user == 'Pandit')){
 			console.log("Pandit Aya");
 			//console.log(id);
 			//console.log(pchat1 +" " + pchat2 + " " + pchat3 + " " + pchat4 + " Love");
@@ -539,7 +539,7 @@ $(function(){
 			$('#'+emasi).append(li);
 			//$('#chat1').append(li);
 			
-		}else if(email == "italian_pandit@dishcuss.com" || email == "desi_pandit@dishcuss.com" ){
+		}else if(email == "italian_pandit@dishcuss.com" || email == "desi_pandit@dishcuss.com"  ||  email == "continental_pandit@dishcuss.com" || email == "fast_food_pandit@dishcuss.com" || email == "sasta_pandit@dishcuss.com" || email == "foreign_pandit@dishcuss.com"){
 			console.log('pandit');
 			console.log(id);
 			console.log(pchat1 +" " + pchat2 + " " + pchat3 + " " + pchat4 + " Msg");

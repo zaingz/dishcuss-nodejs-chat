@@ -277,7 +277,7 @@ module.exports = function(app,io){
 				array.push({email: asf.email , room: asf.room , socket_id: socket.id , nick: nic});
 				socket.emit('idsave' , {email: asf.email , nick: nic});
 				console.log('chowing dat ' + dat);
-				if(asf.email == "italian_pandit@dishcuss.com" || asf.email == "desi_pandit@dishcuss.com"){
+				if(asf.email == "italian_pandit@dishcuss.com" || asf.email == "desi_pandit@dishcuss.com" || asf.email == "continental_pandit@dishcuss.com" || asf.email == "fast_food_pandit@dishcuss.com" || asf.email == "sasta_pandit@dishcuss.com" || asf.email == "foreign_pandit@dishcuss.com"){
 					socket.emit('chatipandit' , {id: [asf.id] , users: [asf.user] , avatars: [socket.avatar]} );
 				}else{
 
@@ -434,6 +434,22 @@ module.exports = function(app,io){
 				p_id = "italian_pandit@dishcuss.com";
 				pundit_reply = "Italian Pandit is sending messages" + socket.id;
 				pandit = "Italian Pandit";
+			}else if(data.room == 'continental'){
+				p_id = "continental_pandit@dishcuss.com";
+				pundit_reply = "Continental Pandit is sending messages" + socket.id;
+				pandit = "Continental Pandit";
+			}else if(data.room == 'fast_food'){
+				p_id = "fast_food_pandit@dishcuss.com";
+				pundit_reply = "Fast Food Pandit is sending messages" + socket.id;
+				pandit = "Fast Food Pandit";
+			}else if(data.room == 'sasta'){
+				p_id = "sasta_pandit@dishcuss.com";
+				pundit_reply = "Sasta Pandit is sending messages" + socket.id;
+				pandit = "Sasta Pandit";
+			}else if(data.room == 'foreign'){
+				p_id = "foreign_pandit@dishcuss.com";
+				pundit_reply = "Foreign Pandit is sending messages" + socket.id;
+				pandit = "Foreign Pandit";
 			}
 			basd = 0 ;
 			array.forEach(function(value){
