@@ -426,7 +426,7 @@ module.exports = function(app,io){
 			console.log(data);
 			var pundit_reply ;
 			var pandit ;
-			if(data.room == 'pandit1'){
+			if(data.room == 'desi'){
 				p_id = "desi_pandit@dishcuss.com";
 				pundit_reply = "Desi Pandit is sending messages " + socket.id;
 				pandit = "Desi Pandit";

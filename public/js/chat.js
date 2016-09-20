@@ -129,7 +129,7 @@ $(function(){
 		var na = window.location.search.split('&email=')[0].split('?name=')[1];
 		name = na.charAt(0).toUpperCase() + na.slice(1);
 		roomi = window.location.pathname.split('chat/')[1];
-		rooms = ['pandit1','pandit2' , 'continental' , 'fast_food' , 'sasta' , 'foreign'];
+		rooms = ['desi','pandit2' , 'continental' , 'fast_food' , 'sasta' , 'foreign'];
 		for (i = 0; i < rooms.length; i++) { 
 		    if(rooms[i] == roomi){
 		    	rom_chk = true;
