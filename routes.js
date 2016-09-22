@@ -393,7 +393,7 @@ module.exports = function(app,io){
 			console.log(asfs);
 			var pundit_reply ;
 			var pandit ;
-			if(asfs.room == 'pandit1'){
+			if(asfs.room == 'desi'){
 				p_id = "desi_pandit@dishcuss.com";
 				pundit_reply = "Desi Pandit is sending messages " + socket.id;
 				pandit = "Desi Pandit";
@@ -401,6 +401,26 @@ module.exports = function(app,io){
 				p_id = "italian_pandit@dishcuss.com";
 				pundit_reply = "Italian Pandit is sending messages" + socket.id;
 				pandit = "Italian Pandit";
+			}else if(asfs.room == 'sasta'){
+				p_id = "sasta_pandit@dishcuss.com";
+				pundit_reply = "Sasta Pandit is sending messages" + socket.id;
+				pandit = "Sasta Pandit";
+			}else if(asfs.room == 'fast_food'){
+				p_id = "fast_food_pandit@dishcuss.com";
+				pundit_reply = "Fast Food Pandit is sending messages" + socket.id;
+				pandit = "Fast Food Pandit";
+			}else if(asfs.room == 'continental'){
+				p_id = "continental_pandit@dishcuss.com";
+				pundit_reply = "Continental Pandit is sending messages" + socket.id;
+				pandit = "Continental Pandit";
+			}else if(asfs.room == 'foreign'){
+				p_id = "foreign_pandit@dishcuss.com";
+				pundit_reply = "Foreign Pandit is sending messages" + socket.id;
+				pandit = "Foreign Pandit";
+			}else{
+				p_id = "wella_pandit@dishcuss.com";
+				pundit_reply = "Wella Pandit is sending messages" + socket.id;
+				pandit = "Wella Pandit";
 			}
 			basd = 0 ;
 			array.forEach(function(value){
