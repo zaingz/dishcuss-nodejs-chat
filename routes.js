@@ -7,7 +7,7 @@
 var gravatar = require('gravatar');
 var array = [];
 var dat ;
-
+var pandit_sockit_id = [];
 
 
 // Render the chant.html view
@@ -226,7 +226,8 @@ module.exports = function(app,io){
 			var room = findClientsSocket(io,asf.room);
 			ar_chk = false;
 			console.log(room.length + " " + asf.email);
-			if(room.length  < 15){
+			if(room.length  < 50){
+
 				socket.username = asf.username;
 				socket.user_id = asf.id;
 				socket.room = asf.room;
@@ -279,10 +280,46 @@ module.exports = function(app,io){
 				console.log('chowing dat ' + dat);
 				if(asf.email == "italian_pandit@dishcuss.com" || asf.email == "desi_pandit@dishcuss.com" || asf.email == "continental_pandit@dishcuss.com" || asf.email == "fast_food_pandit@dishcuss.com" || asf.email == "sasta_pandit@dishcuss.com" || asf.email == "foreign_pandit@dishcuss.com"){
 					socket.emit('chatipandit' , {id: [asf.id] , users: [asf.user] , avatars: [socket.avatar]} );
+					pandit_sockit_id.push({socket: socket.id , email: asf.email, room: asf.room});
+					console.log('Pandits: ' + JSON.stringify(pandit_sockit_id));
 				}else{
+					var chk_pandit_in_room = false;
+					var emasdf = '';
+					if(asf.room == 'desi'){
+						emasdf = 'desi_pandit@dishcuss.com';
+					}
+					else if(asf.room == 'continental'){
+						emasdf = "continental_pandit@dishcuss.com";
+					}
+					else if(asf.room == 'fast_food'){
+						emasdf = "fast_food_pandit@dishcuss.com";
+					}
+					else if(asf.room == 'sasta'){
+						emasdf = "sasta_pandit@dishcuss.com";
+					}
+					else if(asf.room == 'foreign'){
+						emasdf = "foreign_pandit@dishcuss.com";
+					}
+					roomasd = io.sockets.adapter.rooms[asf.room];
+					if (roomasd) {
+					    for (var id in roomasd) {
+					    	pandit_sockit_id.forEach(function(value){
+					    		if(value.socket == id && value.email == emasdf && value.room == asf.room){
+					    			chk_pandit_in_room = true;
+					    		}
+					    	});
+					    	if(chk_pandit_in_room){
+					    		break;
+					    	}
+					    }
+					}
 
-					socket.emit('chati' , {id: [asf.id] , users: [asf.user] , avatars: [socket.avatar]} );
-					io.to(socket.id).emit('welcome_msg', {msg: msgtocli , id: nic});
+					if(chk_pandit_in_room == true){
+						socket.emit('chati' , {id: [asf.id] , users: [asf.user] , avatars: [socket.avatar]} );
+						io.to(socket.id).emit('welcome_msg', {msg: msgtocli , id: nic});
+					}else{
+						socket.emit('tooMany' , {});
+					}
 				}
 			}else{
 				socket.emit('tooMany' , {});
@@ -365,6 +402,18 @@ module.exports = function(app,io){
 
 			// Notify the other person in the chat room
 			// that his partner has left
+			var ind = -1;
+			pandit_sockit_id.forEach(function(value , i){
+				if(value.socket == socket.id){
+					console.log("Disconnecting Pandit " + i);
+					ind = i ;
+				}
+			});
+
+			if(ind > -1){
+				pandit_sockit_id.splice(ind, ind+1);
+			}
+			console.log('Pandits: ' + JSON.stringify(pandit_sockit_id));
 
 			socket.broadcast.to(this.room).emit('leave', {
 				boolean: true,
@@ -646,4 +695,21 @@ function get_pundit(){
 	  }
 	});
 	return dat;
+}
+
+function findClientsSocketByRoomId(io,roomId) {
+	var res = -1;
+		ns = io.of("/");    // the default namespace is "/"
+
+	if (ns) {
+		for (var id in ns.connected) {
+			if(roomId) {
+				var index = ns.connected[id].rooms.indexOf(roomId) ;
+				if(index !== -1) {
+					console.log("Connected Id: "+ns.connected[id]);
+				}
+			}
+		}
+	}
+	return res;
 }
