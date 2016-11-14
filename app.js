@@ -5,7 +5,13 @@
 
 
 var express = require('express'),
-	app = express();
+	app = express(),
+	session = require('express-session');
+app.use(session({
+    secret: '2C44-4D44-WppQ38S',
+    resave: true,
+    saveUninitialized: true
+}));
 
 // This is needed if the app is run on heroku:
 

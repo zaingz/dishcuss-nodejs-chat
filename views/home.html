@@ -9,10 +9,13 @@
 
 <head>
 
-	<title>Create a new chat room! | Tutorialzine Demo</title>
+	<title>DishCuss</title>
 
 	<link type="text/css" rel="stylesheet" href="css/stylesheet.css" />
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans Condensed:300italic,300,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
 </head>
@@ -22,7 +25,7 @@
 	<header class="homebanner">
 
 			<h1 class="homebannertext">
-				<a href="http://tutorialzine.com/2014/03/nodejs-private-webchat/" id="logo">Tutorial<span>zine</span></a>
+				<a href="http://tutorialzine.com/2014/03/nodejs-private-webchat/" id="logo">Dish<span>Cuss</span></a>
 			</h1>
 
 	</header>
@@ -31,7 +34,7 @@
 
 		<div class="homesection">
 
-			<div class="node">
+			<!-- <div class="node">
 				<img src="img/nodejslogo.png" alt="nodelogo" id="nodelogo"/>
 				<h2 id="chat">powered web chat</h2>
 			</div>
@@ -47,6 +50,27 @@
 				<a title="Download the source code." href="http://tutorialzine.com/2014/03/nodejs-private-webchat/" id="tutorial">
 					or download a copy of the source code here
 				</a>
+			</div> -->
+			<div class="col-md-6 col-md-offset-3">
+				<form class="form-horizontal" action='/login' method="post">
+				  <div class="form-group">
+				    <label class="control-label col-sm-2" for="email">Email:</label>
+				    <div class="col-sm-10">
+				      <input type="email" class="form-control" id="email" name="user[email]" placeholder="Enter email">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="control-label col-sm-2" for="pwd">Password:</label>
+				    <div class="col-sm-10"> 
+				      <input type="password" class="form-control" id="pwd" name="user[password]" placeholder="Enter password">
+				    </div>
+				  </div>
+				  <div class="form-group"> 
+				    <div class="col-sm-offset-2 col-sm-10">
+				      <button type='submit' class="btn btn-default">LogIn</button>
+				    </div>
+				  </div>
+				</form>
 			</div>
 		</div>
 
@@ -54,3 +78,10 @@
 
 </body>
 </html>
+
+<script type="text/javascript">
+	function login(){
+		var email = document.getElementById("email").value ;
+		console.log(email);
+	}
+</script>

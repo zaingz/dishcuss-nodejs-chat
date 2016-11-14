@@ -245,7 +245,7 @@ $(function(){
 		}
 		showMessage("chatStarted");
 		createChatMessage(data.rply, data.pandit, data.sender, "http://www.gravatar.com/avatar/6b7d19f9df91b20be0a9a4de39dd3913?s=140&r=x&d=mm", moment());
-		scrollToBottom();
+		//scrollToBottom();
 	});
 
 	socket.on('welcome_msg', function(data){
@@ -262,7 +262,7 @@ $(function(){
 
 		showMessage("chatStarted");
 		createChatMessage(ms, 'Pandit', 'Pandit', "http://www.gravatar.com/avatar/6b7d19f9df91b20be0a9a4de39dd3913?s=140&r=x&d=mm", moment());
-		scrollToBottom();
+		//scrollToBottom();
 	});
 	//socket.emit('p1_msg' , )
 	// save the gravatar url
@@ -415,7 +415,7 @@ $(function(){
 
 		if(data.msg.trim().length) {
 			createChatMessage(data.msg, data.user, data.id , data.img, moment());
-			scrollToBottom();
+			//scrollToBottom();
 		}
 	});
 
@@ -545,13 +545,14 @@ $(function(){
 			console.log(pchat1 +" " + pchat2 + " " + pchat3 + " " + pchat4 + " Msg");
 			console.log('Message: '+emai);
 			if($("#" + emai).length == 0) {
-			  $('#chats_here').append('<ul id="'+ emai +'" class="chats pun_users" style="border-right: 1px solid #333;"></ul>');
+			  $('#chats_here').append('<ul id="'+ emai +'" class="chats pun_users hidden" style="border-right: 1px solid #333;"></ul>');
 			  $('#'+emai).append(li);
-			  $('#users').append('<li style="list-style-type:none"><button id="' + emai + '_button" onclick="chats_pundit_side_hide(this);" class="btn btn-default" style="width: 100% !important;" value="'+ emai +'">'+ emai +'</button></li>');
+			  $('#users').append('<li style="list-style-type:none"><spam class="danger" id="'+emai+'_spam"></spam><button id="' + emai + '_button" onclick="chats_pundit_side_hide(this);" class="btn btn-default" style="width: 100% !important;" value="'+ emai +'">'+ user +'</button></li>');
 			}else{
 				$('#'+emai).append(li);
 			}
 			$('#'+emai+'_button').removeClass('btn-default');
+			//$('#'+emai+'_button').removeClass('btn-primary');
 			$('#'+emai+'_button').addClass('btn-danger');
 			/*if(pchat1 == emai){
 				$('#chat1').append(li);
@@ -668,7 +669,7 @@ $(function(){
 });
 
 function loadDoc(nam) {
-	var url = "/mond/" + nam ;
+  var url = "/mond/" + nam ;
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -683,5 +684,7 @@ function chats_pundit_side_hide(e){
 	$('.pun_users').addClass("hidden");
 	$('#'+e.getAttribute('value')).removeClass("hidden");
 	$('#'+e.getAttribute('value')+'_button').removeClass("btn-danger");
-	$('#'+e.getAttribute('value')+'_button').addClass("btn-default");
+	$('#'+e.getAttribute('value')+'_button').addClass("btn-primary");
+	var k = $('#'+e.getAttribute('value')+'_button').text();
+	$('#pundi_chat_name').text(k);
 }

@@ -19,6 +19,26 @@ var MongoClient = mongodb.MongoClient;
 // Connection URL. This is where your mongodb server is running.
 var url = 'mongodb://localhost:27017/dishcuss';
 
+
+// Authentication and Authorization Middleware
+var auth = function(req, res, next) {
+  console.log("Email: " + req.query.email);
+  var email = req.query.email;
+  /*if(email == "italian_pandit@dishcuss.com" || email == "desi_pandit@dishcuss.com" || email == "continental_pandit@dishcuss.com" || email == "fast_food_pandit@dishcuss.com" || email == "sasta_pandit@dishcuss.com" || email == "foreign_pandit@dishcuss.com"){
+  	if (req.session && req.session.user === "pandit" && req.session.admin)
+	    return next();
+	else{
+	    res.writeHead(301,
+		  {Location: '/'}
+		);
+		return res.end();
+	}
+  }else{
+  	return next();
+  }*/
+  return next();
+};
+
 /*var pg = require('pg');
 
 // instantiate a new client
@@ -136,8 +156,68 @@ pg.connect(connectionString, function(err, client, done) {
 
 module.exports = function(app,io){
 
-	app.get('/', function(req, res){
+	// Login endpoint
+	app.post('/login', function (req, res) {
+	  //console.log(req);
+	  if (!req.body.user.email || !req.body.user.password) {
+	    res.writeHead(301,
+		  {Location: '/'}
+		);
+		res.end();  
+	  } else {
+	  	var chks = false ;
+	    // Use connect method to connect to the Server
+		MongoClient.connect(url, function (err, db) {
+		  if (err) {
+		    console.log('Unable to connect to the mongoDB server. Error:', err);
+		  } else {
+		    //HURRAY!! We are connected. :)
+		    console.log('Connection established to', url);
 
+		    // Get the documents collection
+		    var collection = db.collection('pundits');
+		    var roomi ;
+
+		    console.log(collection);
+		    collection.find().toArray(function(err, items) {
+	          console.log('Records Fetched');
+	          db.close();
+	          items.forEach(function(record){
+	          	if(req.body.user.email === record.email && req.body.user.password === record.password) {
+	          		chks = true ;
+	          		roomi = record.room ;
+				}
+	          });
+	          if(chks == true){
+			    req.session.user = "pandit";
+			    req.session.admin = true;
+			    res.writeHead(301,
+				  {Location: '/chat/' + roomi + '?name=pandit&email=' + req.body.user.email}
+				);
+				res.end();
+	          }else{
+	          	req.session.user = "user";
+	          	res.writeHead(301,
+				  {Location: '/'}
+				);
+				res.end();
+	          }
+	        });
+		  }
+		});
+	  }
+	});
+	 
+	// Logout endpoint
+	app.get('/logout', function (req, res) {
+	  req.session.destroy();
+	  res.writeHead(301,
+		{Location: '/'}
+	  );
+	  res.end();
+	});
+
+	app.get('/', function(req, res){
 		// Render views/home.html
 		res.render('home');
 	});
@@ -151,18 +231,18 @@ module.exports = function(app,io){
 		res.redirect('/chat/'+id);
 	});
 
-	app.get('/chat/:id', function(req,res){
+	app.get('/chat/:id', auth , function(req,res){
 
 		// Render the chant.html view
 		res.render('chat');	
 	});
 
-	app.get('/pundits', function(req,res){
+	app.get('/pundits', auth , function(req,res){
 		// Render the chant.html view
 		res.render('pundit');	
 	});
 
-	app.get('/getpundits', function(req,res){
+	app.get('/getpundits', auth , function(req,res){
 		
 
 		// Use connect method to connect to the Server
@@ -187,7 +267,7 @@ module.exports = function(app,io){
 		});
 	});
 
-	app.post('/pundit/save', function(req,res){
+	app.post('/pundit/save', auth , function(req,res){
 		console.log('Name '+req.body.name);
 		console.log('Room '+req.body.room);
 		console.log('Email '+req.body.email);
@@ -200,7 +280,7 @@ module.exports = function(app,io){
 		console.log('Confirm Password '+req.body.c_pwd);
 		console.log('Welcome Message '+req.body.w_msg);*/
 		save_pundit(req.body.name, req.body.room, req.body.email, req.body.password, req.body.message);
-		res.redirect('/pundits');
+		res.redirect('/getpundits');
 	});
 
 	app.get('/mond/:name', function(req,res){
@@ -217,6 +297,9 @@ module.exports = function(app,io){
 		// When the client emits the 'load' event, reply with the 
 		// number of people in this chat room
 		socket.on('p1_join', function(data){
+			console.log(data);
+			data = data.replace(/'/g, '"');
+			console.log("Modified");
 			console.log(data);
 
 			var msgtocli = 'Welcome';
@@ -490,11 +573,19 @@ module.exports = function(app,io){
 
 		//Food pundit
 		socket.on('p1_msg', function(data){
+			if(typeof data === 'string' || data instanceof String){
+				if(data.includes("@@@")){
+					ms = data.replace(/@@@/g, '"');
+					data = JSON.parse(ms)
+				}
+			}
 			var msg = data.msg;
 			var sender_id = data.id;
 			console.log(data);
 			var pundit_reply ;
 			var pandit ;
+			console.log('Room');
+			console.log(data.room);
 			if(data.room == 'desi'){
 				p_id = "desi_pandit@dishcuss.com";
 				pundit_reply = "Desi Pandit is sending messages " + socket.id;
